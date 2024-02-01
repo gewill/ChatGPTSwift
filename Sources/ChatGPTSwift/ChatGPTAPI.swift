@@ -20,9 +20,10 @@ public class ChatGPTAPI: @unchecked Sendable {
         public static let defaultModel = "gpt-3.5-turbo"
         public static let defaultSystemText = "You're a helpful assistant"
         public static let defaultTemperature = 0.5
+        public static let defaultBaseUrl = "https://api.openai.com/v1/chat/completions"
     }
     
-    private let urlString = "https://api.openai.com/v1/chat/completions"
+    public let urlString: String
     private let apiKey: String
     private let gptEncoder = GPTEncoder()
     public private(set) var historyList = [Message]()
@@ -50,8 +51,9 @@ public class ChatGPTAPI: @unchecked Sendable {
         .init(role: "system", content: content)
     }
     
-    public init(apiKey: String) {
+    public init(apiKey: String, baseUrl: String = Constants.defaultBaseUrl) {
         self.apiKey = apiKey
+        self.urlString = baseUrl
     }
     
     private func generateMessages(from text: String, systemText: String) -> [Message] {
